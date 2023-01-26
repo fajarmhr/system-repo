@@ -1,0 +1,2 @@
+Timestamp	Longitude	Latitude	Operatorname	Node	CellID	LAC	NetworkTech	Level	Qual	SNR	CQI	LTERSSI	EventType	EventDetails	State
+2023.01.19_22.34.07	107.634964	-6.977233	Open5GS	411	1	1	4G	-77	-10	4.0	-	-65	HANDOVER_DATA_4G4G	901-70-1-412-1-2100-2:901-70-1-411-1-2100-1	I
