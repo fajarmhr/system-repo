@@ -9,14 +9,14 @@ if [[ $SER == 1 ]]
 then
     echo
     echo "iperf server on core"
-    iperf3 -s -i 0.5
+    iperf3 -s -i 1
 
 elif [[ $SER == 2 ]]
 then
     echo
     echo "iperf server on UE"
     echo
-    sudo ip netns exec ue1 iperf3 -s -i 0.5
+    sudo ip netns exec ue1 iperf3 -s -i 1
 elif [[ $SER == 3 ]]
 then
     echo
