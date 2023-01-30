@@ -19,7 +19,9 @@ then
    for ((z=1; z<=1; z++)) 
    do
       iperf3 -c ${IPUE} -i 1 -t 30 --sctp >> ../raw/sctp_4.csv
+      sleep 5s
       iperf3 -c ${IPUE} -i 1 -t 30 >> ../raw/tcp_4.csv
+      sleep 5s
       iperf3 -c ${IPUE} -i 1 -t 30 --udp >> ../raw/udp_4.csv
       a=`cat ../raw/sctp_4.csv | awk '{print$7}'`$'\n'
       b=`cat ../raw/tcp_4.csv | awk '{print$7}'`$'\n'
