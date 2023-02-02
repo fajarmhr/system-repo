@@ -5,63 +5,110 @@ cd res
 
 echo "IPERF CLIENT"
 echo
-echo -n -e " ketik 1 untuk client di core\n ketik 2 untuk client di ue\n ketik 3 untuk masuk surga\n [1/2] "
+echo -n -e " ketik 1 untuk downlink\n ketik 2 untuk upnlink\n ketik 3 untuk downlink android\n ketik 4 untuk masuk surga\n [1/2/3] "
 read CLT
 
 if [[ $CLT == 1 ]]
 then
    echo
-   echo "iperf client on core"
+   echo "iperf downlink"
    echo -n -e "\nketik IP UE : "
    read IPUE
    echo
    echo "iperfing client on server ${IPUE}"
-   for ((z=1; z<=1; z++)) 
+   for ((z=1; z<=30; z++)) 
    do
-      iperf3 -c ${IPUE} -i 1 -t 30 --sctp >> ../raw/sctp_4.csv
-      sleep 5s
-      iperf3 -c ${IPUE} -i 1 -t 30 >> ../raw/tcp_4.csv
-      sleep 5s
-      iperf3 -c ${IPUE} -i 1 -t 30 --udp >> ../raw/udp_4.csv
-      a=`cat ../raw/sctp_4.csv | awk '{print$7}'`$'\n'
-      b=`cat ../raw/tcp_4.csv | awk '{print$7}'`$'\n'
-      c=`cat ../raw/udp_4.csv | awk '{print$7}'`$'\n'
-      d=`cat ../raw/udp_4.csv | awk '{print$9}'`$'\n'
-      # c=`cat ../raw/udp_4.csv | awk '{print$7}'`$'\n'
+      echo "$z"
+      iperf3 -c ${IPUE} -i 0.5 -t 10 --sctp >> ../raw/sctp_i.csv
+      sleep 2s
+      iperf3 -c ${IPUE} -i 0.5 -t 10 >> ../raw/tcp_i.csv
+      sleep 2s
+      iperf3 -c ${IPUE} -i 0.5 -t 10 --udp >> ../raw/udp_i.csv
+      sleep 2s
+      a=`cat ../raw/sctp_i.csv | awk '{print$7}'`$'\n'
+      b=`cat ../raw/tcp_i.csv | awk '{print$7}'`$'\n'
+      c=`cat ../raw/udp_i.csv | awk '{print$7}'`$'\n'
+      #d=`cat ../raw/udp_i.csv | awk '{print$9}'`$'\n'
+      # c=`cat ../raw/udp_i.csv | awk '{print$7}'`$'\n'
+      ovs=`cat ../raw/sctp_i.csv | grep "receiver" | awk '{print$7}'`$'\n'
+      ovt=`cat ../raw/tcp_i.csv | grep "receiver" | awk '{print$7}'`$'\n'
+      ovu=`cat ../raw/udp_i.csv | grep "receiver" | awk '{print$7}'`$'\n'
 
-      echo "$a" > sctp_4.csv
-      echo "$b" > tcp_4.csv
-      echo "$c" > udp_4.csv
-      echo "$d" > udp_jitter_4.csv
+      echo "$a" > sctp_i5.csv
+      echo "$b" > tcp_i5.csv
+      echo "$c" > udp_i5.csv
+      #echo "$d" > udp_jitter_i.csv
+      echo "$ovs" > sctp_ovr5.csv
+      echo "$ovt" > tcp_ovr5.csv
+      echo "$ovu" > udp_ovr5.csv
    done
-   rm ../raw/sctp_4.csv
-   rm ../raw/tcp_4.csv
-   rm ../raw/udp_4.csv
+   rm ../raw/sctp_i.csv
+   rm ../raw/tcp_i.csv
+   rm ../raw/udp_i.csv
 
 elif [[ $CLT == 2 ]]
 then
    echo
-   echo "iperf client on UE"
+   echo "iperf upnlink"
    echo
    for ((z=1; z<=1; z++)) 
    do
-      sudo ip netns exec ue1 iperf3 -c 10.45.0.1 -i 1 -t 30 --sctp >> ../raw/sctp_4.csv
-      sudo ip netns exec ue1 iperf3 -c 10.45.0.1 -i 1 -t 30 >> ../raw/tcp_4.csv
-      sudo ip netns exec ue1 iperf3 -c 10.45.0.1 -i 1 -t 30 --udp >> ../raw/udp_4.csv
-      a=`cat ../raw/sctp_4.csv | awk '{print$7}'`$'\n'
-      b=`cat ../raw/tcp_4.csv | awk '{print$7}'`$'\n'
-      c=`cat ../raw/udp_4.csv | awk '{print$7}'`$'\n'
-      d=`cat ../raw/udp_4.csv | awk '{print$9}'`$'\n'
+      sudo ip netns exec ue1 iperf3 -c 10.45.0.1 -i 0.5 -t 10 --sctp >> ../raw/sctp_i.csv
+      sudo ip netns exec ue1 iperf3 -c 10.45.0.1 -i 0.5 -t 10 >> ../raw/tcp_i.csv
+      sudo ip netns exec ue1 iperf3 -c 10.45.0.1 -i 0.5 -t 10 --udp >> ../raw/udp_i.csv
+      a=`cat ../raw/sctp_i.csv | awk '{print$7}'`$'\n'
+      b=`cat ../raw/tcp_i.csv | awk '{print$7}'`$'\n'
+      c=`cat ../raw/udp_i.csv | awk '{print$7}'`$'\n'
+      #d=`cat ../raw/udp_i.csv | awk '{print$9}'`$'\n'
 
-      echo "$a" > sctp_4.csv
-      echo "$b" > tcp_4.csv
-      echo "$c" > udp_4.csv
-      echo "$d" > udp_jitter_4.csv
+      echo "$a" > sctp_i.csv
+      echo "$b" > tcp_i.csv
+      echo "$c" > udp_i.csv
+      #echo "$d" > udp_jitter_i.csv
    done
-   rm ../raw/sctp_4.csv
-   rm ../raw/tcp_4.csv
-   rm ../raw/udp_4.csv
+   rm ../raw/sctp_i.csv
+   rm ../raw/tcp_i.csv
+   rm ../raw/udp_i.csv
+
 elif [[ $CLT == 3 ]]
+then
+   echo
+   echo "iperf android downlink"
+   echo -n -e "\nketik IP UE : "
+   read IPAD
+   echo
+   echo "iperfing client on server ${IPAD}"
+   for ((z=1; z<=30; z++)) 
+   do
+      echo "$z"
+      iperf3 -c ${IPUE} -i 0.5 -t 10 --sctp >> ../raw/sctp_i.csv
+      sleep 2s
+      iperf3 -c ${IPUE} -i 0.5 -t 10 >> ../raw/tcp_i.csv
+      sleep 2s
+      iperf3 -c ${IPUE} -i 0.5 -t 10 --udp >> ../raw/udp_i.csv
+      sleep 2s
+      a=`cat ../raw/sctp_i.csv | awk '{print$7}'`$'\n'
+      b=`cat ../raw/tcp_i.csv | awk '{print$7}'`$'\n'
+      c=`cat ../raw/udp_i.csv | awk '{print$7}'`$'\n'
+      #d=`cat ../raw/udp_i.csv | awk '{print$9}'`$'\n'
+      # c=`cat ../raw/udp_i.csv | awk '{print$7}'`$'\n'
+      ovs=`cat ../raw/sctp_i.csv | grep "receiver" | awk '{print$7}'`$'\n'
+      ovt=`cat ../raw/tcp_i.csv | grep "receiver" | awk '{print$7}'`$'\n'
+      ovu=`cat ../raw/udp_i.csv | grep "receiver" | awk '{print$7}'`$'\n'
+
+      echo "$a" > sctp_i4.csv
+      echo "$b" > tcp_i4.csv
+      echo "$c" > udp_i4.csv
+      #echo "$d" > udp_jitter_i.csv
+      echo "$ovs" > sctp_ovr4.csv
+      echo "$ovt" > tcp_ovr4.csv
+      echo "$ovu" > udp_ovr4.csv
+   done
+   rm ../raw/sctp_i.csv
+   rm ../raw/tcp_i.csv
+   rm ../raw/udp_i.csv
+
+elif [[ $CLT == 4 ]]
 then
     echo
     echo "subhanallah"
