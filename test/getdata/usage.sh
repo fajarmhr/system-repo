@@ -17,8 +17,8 @@ do
    done
    a=`cat ../raw/cpu.csv | grep "all" | awk '{print$12}'`$'\n'
    b=`cat ../raw/mem.csv | grep "Mem" | awk '{print$3}'`$'\n'
-   echo "$a" > cpu_idle_5.csv
-   echo "$b" > mem_usage_5.csv
+   echo "$a" > cpu_idle_enb2.csv
+   echo "$b" > mem_usage_enb2.csv
    sleep 1s
 done
 echo "done"
