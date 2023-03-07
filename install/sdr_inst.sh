@@ -9,7 +9,7 @@ echo "apt update"
 apt update
 
 echo "installing..."
-apt install -y libuhd-dev libuhd4.3.0 uhd-host
+apt install -y libuhd-dev uhd-host
 
 echo
 echo "done.."

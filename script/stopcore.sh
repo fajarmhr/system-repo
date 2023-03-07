@@ -53,6 +53,9 @@ systemctl stop open5gs-udrd
 echo "**** Stopping webui... ****"
 systemctl stop open5gs-webui
 
+echo "**** Stopping scpd... ****"
+systemctl stop open5gs-scpd
+
 echo
 echo
 echo "Done"
